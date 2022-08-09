@@ -2,6 +2,7 @@ import { Messaging } from '../services/messaging';
 import { OrderStatus } from './interfaces/order-status';
 import { Persistency } from '../services/persistency';
 import { ShoppingCart } from './shopping-cart';
+import { CustomerOrderProtocol } from './interfaces/customer-protocol';
 
 export class Order {
     private _status: OrderStatus = 'open';
@@ -9,6 +10,7 @@ export class Order {
         private readonly shoppingCart: ShoppingCart,
         private readonly messaging: Messaging,
         private readonly persistency: Persistency,
+        private readonly customer: CustomerOrderProtocol,
     ) {}
 
     get status(): OrderStatus {
@@ -28,5 +30,7 @@ export class Order {
         );
         this.persistency.saveOrder();
         this.shoppingCart.clear();
+
+        console.log('Client:', this.customer.getName(), this.customer.getIDN());
     }
 }
